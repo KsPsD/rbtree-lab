@@ -21,7 +21,7 @@ void test_insert_single(const key_t key)
   assert(p != NULL);
   assert(t->root == p);
   assert(p->key == key);
-  // assert(p->color == RBTREE_BLACK);  // color of root node should be black
+  // // assert(p->color == RBTREE_BLACK);  // color of root node should be black
   assert(p->left == NULL);
   assert(p->right == NULL);
   assert(p->parent == NULL);
@@ -56,8 +56,6 @@ void test_erase_root(const key_t key)
 
   rbtree_erase(t, p);
   assert(t->root == NULL);
-
-  // assert(t->root != NULL);
 
   delete_rbtree(t);
 }
@@ -95,6 +93,7 @@ void test_minmax(key_t *arr, const size_t n)
   assert(t != NULL);
 
   insert_arr(t, arr, n);
+
   assert(t->root != NULL);
 
   qsort((void *)arr, n, sizeof(key_t), comp);
@@ -131,6 +130,8 @@ void test_to_array(const key_t *arr, const size_t n)
   assert(t != NULL);
 
   insert_arr(t, arr, n);
+  //내가 만든거
+  assert(sizeof(arr) != 0);
   qsort((void *)arr, n, sizeof(key_t), comp);
 
   key_t *res = calloc(n, sizeof(key_t));
@@ -139,7 +140,7 @@ void test_to_array(const key_t *arr, const size_t n)
   {
     assert(arr[i] == res[i]);
   }
-
+  printf("정복자");
   delete_rbtree(t);
 }
 
@@ -270,15 +271,23 @@ void test_minmax_suite()
   const size_t n = sizeof(entries) / sizeof(entries[0]);
   test_minmax(entries, n);
 }
+void test_arr_suite()
+{
+  key_t entries[] = {10, 5, 8, 34, 67, 23, 156, 24, 2, 12};
+  const size_t n = sizeof(entries) / sizeof(entries[0]);
+  test_to_array(entries, n);
+}
 
 int main(void)
 {
-  test_init();
+  // test_init();
   test_insert_single(1024);
-  // test_find_single(512, 1024);
-  // test_erase_root(128);
-  // test_minmax_suite();
-  // test_distinct_values();
-  // test_duplicate_values();
-  // printf("Passed all tests!\n");
+  test_find_single(512, 1024);
+  test_erase_root(128);
+  test_minmax_suite();
+  test_distinct_values();
+  test_duplicate_values();
+  // test_arr_suite();
+  test_to_array((key_t[]){1, 2, 3}, 3);
+  printf("Passed all tests!\n");
 }
