@@ -89,7 +89,7 @@ node_t *rbtree_insert(rbtree *t, const key_t key)
     idea = (node_t *)malloc(sizeof(node_t));
     idea->color = RBTREE_BLACK;
     idea->left = t->root; //루트는 더미노드의 왼편에서 시작함
-    idea->right = 0;
+    // idea->right = 0;
 
     return t->root;
   }
@@ -171,6 +171,8 @@ node_t *rbtree_find(const rbtree *t, const key_t key)
 
   if (s == 0)
     return NULL;
+
+  printf("find it\n");
   return s;
 }
 //트리에서 min값찾기
@@ -339,7 +341,7 @@ bool borrowKey(rbtree *t, node_t *delgp, node_t *delp, node_t *del, node_t *sib)
   //한번 회전
   else
   {
-    rbtree_rotate(t, delp, sibrc->key);
+    rbtree_rotate(t, delgp, sib->key);
     sib->color = RBTREE_RED;
     sibrc->color = RBTREE_BLACK;
   }
@@ -489,4 +491,31 @@ int add_to_array(node_t *node, key_t *arr, int i)
     i = add_to_array(node->right, arr, i);
 
   return i;
+}
+
+int main()
+{
+  rbtree *t = new_rbtree();
+
+  node_t *p = NULL;
+  for (int i = 0; i < 1000; i++)
+  {
+    if (i == 3)
+    {
+
+      p = rbtree_insert(t, i);
+    }
+    else
+    {
+
+      rbtree_insert(t, i);
+    }
+  }
+
+  rbtree_erase(t, p);
+  // rbtree_find(t, 4);
+  rbtree_find(t, 5);
+  delete_rbtree(t);
+
+  return 0;
 }
